@@ -1,6 +1,6 @@
 # PWA Training Labs
 
-This repo contains open-source training labs for building Progressive Web Apps.
+This repo contains open-source training labs for building Progressive Web Apps. Developped by Google.
 
 ## Getting started
 
