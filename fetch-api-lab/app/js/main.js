@@ -1,3 +1,4 @@
+
 /*
 Copyright 2018 Google Inc.
 
@@ -24,11 +25,58 @@ function logError(error) {
   console.log('Looks like there was a problem:', error);
 }
 
+function validateResponse(response) {
+	if(!response.ok) {
+		throw Error(response.statusText());
+	}else {
+		return response;
+	}
+}
 
+
+function parseJSON(jsonData) {
+	return jsonData.json();
+}
+
+function domJsonInclude(content) {
+	const jsonViewer = document.getElementById('json-content');
+	jsonViewer.innerHTML = JSON.stringify(content);
+	jsonViewer.classList.add('prettyprint');
+	jsonViewer.parentNode.style.cssText = 'display:block';
+	jsonViewer.style.cssText = 'display:block';
+	PR.prettyPrint();
+}
+
+function showImage(responsePicture) {
+	const container = document.getElementById('img-container');
+	const img      	= document.createElement('img');
+	container.appendChild(img);
+	img.src = URL.createObjectURL(responsePicture);
+}
+
+function showText(text){
+	const message = document.getElementById('message');
+	message.innerHTML = text;
+	message.style.cssText   = 'display:block';
+	message.parentNode.style.cssText = 'display:block';
+}
+
+function responseAsBlob(responsePicture) {
+	return responsePicture.blob();
+}
+
+
+function responseText(responseText){
+	return responseText.text();
+}
 // Fetch JSON ----------
 
 function fetchJSON() {
-  // TODO
+  fetch('examples/animals.json')
+  .then(validateResponse)
+  .then(parseJSON)
+  .then(domJsonInclude)
+  .catch(logError)
 }
 const jsonButton = document.getElementById('json-btn');
 jsonButton.addEventListener('click', fetchJSON);
@@ -37,7 +85,11 @@ jsonButton.addEventListener('click', fetchJSON);
 // Fetch Image ----------
 
 function fetchImage() {
-  // TODO
+  fetch('examples/fetching.jpg')
+  .then(validateResponse)
+  .then(responseAsBlob)
+  .then(showImage)
+  .catch(logError)
 }
 const imgButton = document.getElementById('img-btn');
 imgButton.addEventListener('click', fetchImage);
@@ -46,7 +98,11 @@ imgButton.addEventListener('click', fetchImage);
 // Fetch text ----------
 
 function fetchText() {
-  // TODO
+  fetch('examples/words.txt')
+  .then(validateResponse)
+  .then(responseText)
+  .then(showText)
+  .catch(logError)
 }
 const textButton = document.getElementById('text-btn');
 textButton.addEventListener('click', fetchText);

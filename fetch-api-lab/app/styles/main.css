@@ -108,10 +108,15 @@ img {
   max-width: 100%;
 }
 
-.text-container {
+.text-container, .json-container {
   background-color: #d5d5d5;
   padding: 5px 10px;
+  display: none;
 }
+
+.text-container > *, .json-container > * {
+  display: none;
+} 
 
 p {
   margin: 0;
