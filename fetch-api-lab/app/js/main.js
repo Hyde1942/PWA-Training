@@ -69,6 +69,13 @@ function responseAsBlob(responsePicture) {
 function responseText(responseText){
 	return responseText.text();
 }
+
+function logSize(responseText) {
+	let url  = responseText.url;
+	let size = responseText.headers.get('content-length');
+	console.log(`The URL: ${url} has a size of ${size} bytes.`);
+}
+
 // Fetch JSON ----------
 
 function fetchJSON() {
@@ -111,7 +118,10 @@ textButton.addEventListener('click', fetchText);
 // HEAD request ----------
 
 function headRequest() {
-  // TODO
+  fetch('examples/words.txt',{method: 'HEAD'})
+  .then(validateResponse)
+  .then(logSize)
+  .catch(logError)
 }
 const headButton = document.getElementById('head-btn');
 headButton.addEventListener('click', headRequest);
@@ -121,7 +131,14 @@ headButton.addEventListener('click', headRequest);
 
 /* NOTE: Never send unencrypted user credentials in production! */
 function postRequest() {
-  // TODO
+  const formData = new FormData(document.getElementById('msg-form'))
+  fetch('http://localhost:5000/', {
+  	method: 'POST',
+  	body: formData
+  }).then(validateResponse)
+  .then(responseText)
+  .then(showText)
+  .catch(logError)
 }
 const postButton = document.getElementById('post-btn');
 postButton.addEventListener('click', postRequest);
