@@ -30,7 +30,11 @@ self.addEventListener('fetch', event => {
 				console.log(`Found, ${event.request.url} in cache`);
 				return response;
 			}
-			console.log('Network request for')
+			console.log(`Network request for ${event.request.url}`);
+			return fetch(event.request);
+			//todo
+		}).catch(error => {
+			console.log(`There was an error ${error}`);
 		})
 	)
 })
