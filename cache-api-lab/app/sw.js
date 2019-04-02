@@ -18,4 +18,19 @@ self.addEventListener('install', event => {
 			return cache.addAll(filesToCache);
 		})
 	)
+});
+
+
+self.addEventListener('fetch', event => {
+	console.log(`Fetching event for ${event.request.url}`);
+	event.respondWith(
+		caches.match(event.request)
+		.then(response => {
+			if(response) {
+				console.log(`Found, ${event.request.url} in cache`);
+				return response;
+			}
+			console.log('Network request for')
+		})
+	)
 })
